@@ -1,0 +1,46 @@
+---
+layout: base
+header: Uptime and downtime with <span class="sla_percentage"></span> % SLA
+---
+
+<p style="font-size:x-large;clear:both;">
+    Agreed SLA level:
+    <input style="font-size:x-large" type="text" id="input_sla_percentage" value="" size="5" maxlength="10"> %
+    <button style="font-size:large" id="submitButton" onclick="generateDowntimeNumbers()">Calculate</button>
+    <span style="font-size: 75%;">(or hit the <kbd>&lt;enter&gt;</kbd> key)</span>
+</p>
+
+
+
+The measurements take place according to the following monitoring periods: 
+
+
+
+<p>
+    For convenience, there are some quick links for a number of common monitoring periods: 
+</p>
+
+
+
+<h2>Custom monitoring periods</h2>
+
+<p>
+    Specify a number of hours the availability shall be measured on specific weekdays. 0 means that there will be no measuring on a given day (e.g. on Saturdays and Sundays), while 24 states a requirement of 24 hours of uptime on a given day. 
+</p>
+
+<dl>
+    <dt><label for="uptime-monday"><strong>Monday:</strong></label></dt>
+    <dd><input style="font-size:x-large" id="uptime-monday" name="dur" value="24" size="2"> hours uptime per day</dd>
+    <dt><label for="uptime-tuesday"><strong>Tuesday:</strong></label></dt>
+    <dd><input style="font-size:x-large" id="uptime-tuesday" name="dur" value="24" size="2"> hours uptime per day</dd>
+    <dt><label for="uptime-wednesday"><strong>Wednesday:</strong></label></dt>
+    <dd><input style="font-size:x-large" id="uptime-wednesday" name="dur" value="24" size="2"> hours uptime per day</dd>
+    <dt><label for="uptime-thursday"><strong>Thursday:</strong></label></dt>
+    <dd><input style="font-size:x-large" id="uptime-thursday" name="dur" value="24" size="2"> hours uptime per day</dd>
+    <dt><label for="uptime-friday"><strong>Friday:</strong></label></dt>
+    <dd><input style="font-size:x-large" id="uptime-friday" name="dur" value="24" size="2"> hours uptime per day</dd>
+    <dt><label for="uptime-saturday"><strong>Saturday:</strong></label></dt>
+    <dd><input style="font-size:x-large" id="uptime-saturday" name="dur" value="24" size="2"> hours uptime per day</dd>
+    <dt><label for="uptime-sunday"><strong>Sunday:</strong></label></dt>
+    <dd><input style="font-size:x-large" id="uptime-sunday" name="dur" value="24" size="2"> hours uptime per day</dd>
+</dl>

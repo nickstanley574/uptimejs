@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+    html {
+        font-family: Arial, sans-serif;
+        font-size: 110%;
+    }
+    body {
+        max-width: 875px;
+        padding-left: 15px;
+    }
+    dt {
+        padding-top: 8px;
+        padding-bottom: 2px;
+    }
+</style>
+
+<head>
+    <title>
+        SLA &amp; Uptime calculator
+    </title>
+</head>
+
+<body>
+    <h1 style="color:blue">
+        {{ page.header }}
+    </h1>
+    
+    <div style="padding-bottom:25px">
+    <span style="float:right;">[
+        <a href="/">simple</a> /
+        <a href="/flexible">flexible</a> /
+        <!-- <em>flexible</em> / -->
+        <a href="/reverse">reverse</a> /
+        <a href="/about">about</a> /
+        <a href="/about#api">API</a>
+    ]</span>
+    </div>
+    
+    {{ content }}
+</body>
+
+</html>
