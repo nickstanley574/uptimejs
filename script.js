@@ -107,7 +107,7 @@ const button = document.getElementById("submitButton");
 const urlParams = new URLSearchParams(window.location.search);
 const sla = urlParams.get('sla')
 
-document.getElementById("current_host").textContent = window.location.href.replace(/(^\w+:|^)\/\//, '');
+// document.getElementById("current_host").textContent = window.location.href.replace(/(^\w+:|^)\/\//, '');
 
 if (sla != null) {
     document.getElementById("input_sla_percentage").value = sla
