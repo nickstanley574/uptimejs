@@ -104,6 +104,7 @@ function generateDowntimeNumbers() {
 
     var yourElement = document.getElementById('sla_link');
     yourElement.setAttribute('href', `?sla=${sla_percentage}`);
+    yourElement.innerText = `?sla=${sla_percentage}`
 }
 
 const inputField = document.getElementById("input_sla_percentage");
