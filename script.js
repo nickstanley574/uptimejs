@@ -102,9 +102,10 @@ function generateDowntimeNumbers() {
         sla_percentage_locations[i].innerHTML = sla_percentage;
     }
 
+    host = window.location.href.replace(/(^\w+:|^)\/\//, '');
     var yourElement = document.getElementById('sla_link');
     yourElement.setAttribute('href', `?sla=${sla_percentage}`);
-    yourElement.innerText = `?sla=${sla_percentage}`
+    yourElement.innerText = `${host}?sla=${sla_percentage}`
 }
 
 const inputField = document.getElementById("input_sla_percentage");
@@ -136,9 +137,6 @@ if (wk != null) {
     document.getElementById("uptime-saturday").value = sat
     document.getElementById("uptime-sunday").value = sun
 }
-
-
-// document.getElementById("current_host").textContent = window.location.href.replace(/(^\w+:|^)\/\//, '');
 
 if (sla != null) {
     document.getElementById("input_sla_percentage").value = sla
