@@ -107,6 +107,30 @@ const button = document.getElementById("submitButton");
 const urlParams = new URLSearchParams(window.location.search);
 const sla = urlParams.get('sla')
 
+wk = urlParams.get('wk')
+
+var wkElement = document.getElementById('wk');
+wkElement.innerHTML = "qwertyu"
+
+if (wk != null) {
+    mon = letterToNumber(wk[0])
+    tue = letterToNumber(wk[1])
+    wed = letterToNumber(wk[2])
+    thu = letterToNumber(wk[3])
+    fri = letterToNumber(wk[4])
+    sat = letterToNumber(wk[5])
+    sun = letterToNumber(wk[6])
+
+    document.getElementById("uptime-monday").value = mon
+    document.getElementById("uptime-tuesday").value = tue
+    document.getElementById("uptime-wednesday").value = wed
+    document.getElementById("uptime-thursday").value = thu
+    document.getElementById("uptime-friday").value = fri
+    document.getElementById("uptime-saturday").value = sat
+    document.getElementById("uptime-sunday").value = sun
+}
+
+
 // document.getElementById("current_host").textContent = window.location.href.replace(/(^\w+:|^)\/\//, '');
 
 if (sla != null) {
