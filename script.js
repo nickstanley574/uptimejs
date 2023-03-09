@@ -109,10 +109,11 @@ const sla = urlParams.get('sla')
 
 wk = urlParams.get('wk')
 
-var wkElement = document.getElementById('wk');
-wkElement.innerHTML = "qwertyu"
-
 if (wk != null) {
+
+    var wkElement = document.getElementById('wk');
+    wkElement.innerHTML = "qwertyu"
+
     mon = letterToNumber(wk[0])
     tue = letterToNumber(wk[1])
     wed = letterToNumber(wk[2])
