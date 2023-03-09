@@ -1,4 +1,3 @@
-console.log("Testing")
 
 function getSecondsDownPerYear(uptimePercentage, excludedSeconds) {
     const uptime = uptimePercentage / 100;
@@ -81,3 +80,26 @@ function generateDowntimeNumbers() {
     var yourElement = document.getElementById('sla_link');
     yourElement.setAttribute('href', `?sla=${sla_percentage}`);
 }
+
+const inputField = document.getElementById("input_sla_percentage");
+const button = document.getElementById("submitButton");
+
+const urlParams = new URLSearchParams(window.location.search);
+const sla = urlParams.get('sla')
+
+document.getElementById("current_host").textContent = window.location.href.replace(/(^\w+:|^)\/\//, '');
+
+if (sla != null) {
+    document.getElementById("input_sla_percentage").value = sla
+    button.click()
+} else {
+    document.getElementById("input_sla_percentage").value = 99.99
+    button.click()
+}
+
+inputField.addEventListener("keyup", function(event) {
+    // Check if "Enter" key was pressed
+    if (event.keyCode === 13) {
+      button.click();
+    }
+  });
