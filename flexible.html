@@ -111,11 +111,6 @@ header: Uptime and downtime with <span class="sla_percentage"></span> % SLA
     //     yourElement.setAttribute('href', `?sla=${sla_percentage}&wk=qwertyu`);
     // }
     
-    const inputField = document.getElementById("input_sla_percentage");
-    const button = document.getElementById("submitButton");
-    
-    const urlParams = new URLSearchParams(window.location.search);
-    const sla = urlParams.get('sla')
     wk = urlParams.get('wk')
 
     var wkElement = document.getElementById('wk');
@@ -138,7 +133,6 @@ header: Uptime and downtime with <span class="sla_percentage"></span> % SLA
         document.getElementById("uptime-saturday").value = sat
         document.getElementById("uptime-sunday").value = sun
     }
-
 
     // document.getElementById("current_host").textContent = window.location.href.replace(/(^\w+:|^)\/\//, '');
     
