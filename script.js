@@ -86,7 +86,12 @@ function generateDowntimeNumbers() {
     secondsDownPerMonth = secondsDownPerYear / 12
     secondsDownPerQuarter = secondsDownPerYear / 4
 
-    document.getElementById('dailyTime').innerHTML = formattedElapsedTime(secondsDownPerDay);
+    dailyTimeElement = document.getElementById('dailyTime')
+
+    if (dailyTimeElement) {
+        dailyTimeElement.innerHTML = formattedElapsedTime(secondsDownPerDay);
+    }
+
     document.getElementById('weeklyTime').innerHTML = formattedElapsedTime(secondsDownPerWeek);
     document.getElementById('monthlyTime').innerHTML = formattedElapsedTime(secondsDownPerMonth);
     document.getElementById('quarterlyTime').innerHTML = formattedElapsedTime(secondsDownPerQuarter);
