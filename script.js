@@ -14,8 +14,6 @@ function letterToNumber(l) {
     return parseInt(l, 36) - 10
 }
 
-
-
 function convertSecsToDays(seconds) {
     let days = (seconds > 1) ? parseInt(seconds / 86400) : 0;
     return days;
@@ -68,7 +66,20 @@ function formattedElapsedTime(seconds){
 function generateDowntimeNumbers() {
     var sla_percentage = document.getElementById('input_sla_percentage').value;
 
-    let secondsDownPerYear = getSecondsDownPerYear(sla_percentage)
+    weeklyUptimeHours = 0
+    var dailyUptimes = document.getElementsByClassName("uptime-daily");
+
+    if (dailyUptimes.length == 0) {
+        weeklyUptimeHours = 168
+    } else {
+        for (var i = 0; i < dailyUptimes.length; i++) {
+            weeklyUptimeHours += parseInt(dailyUptimes[i].value)
+        }
+    }
+
+    uptimeSecondPerYear = weeklyUptimeHours * 3600 * 52
+
+    let secondsDownPerYear = getSecondsDownPerYear(sla_percentage, uptimeSecondPerYear)
 
     secondsDownPerDay = secondsDownPerYear / 365.2425
     secondsDownPerWeek = secondsDownPerYear / 52

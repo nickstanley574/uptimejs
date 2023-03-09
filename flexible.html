@@ -74,43 +74,42 @@ header: Uptime and downtime with <span class="sla_percentage"></span> % SLA
 </ul>
 
 <script>        
-    function generateDowntimeNumbers() {
-        var sla_percentage = document.getElementById('input_sla_percentage').value;
+    // function generateDowntimeNumbers() {
+    //     var sla_percentage = document.getElementById('input_sla_percentage').value;
     
+    //     weeklyUptimeHours = 0
+    //     var dailyUptimes = document.getElementsByClassName("uptime-daily");
 
-        weeklyUptimeHours = 0
-        var dailyUptimes = document.getElementsByClassName("uptime-daily");
-        for (var i = 0; i < dailyUptimes.length; i++) {
-            weeklyUptimeHours += parseInt(dailyUptimes[i].value)
-        }
+    //     if (dailyUptimes.length == 0) {
+    //         weeklyUptimeHours = 168
+    //     } else {
+    //         for (var i = 0; i < dailyUptimes.length; i++) {
+    //             weeklyUptimeHours += parseInt(dailyUptimes[i].value)
+    //         }
+    //     }
 
-        secondsPerYear = 365 * 24 * 60 * 60;
+    //     uptimeSecondPerYear = weeklyUptimeHours * 3600 * 52
 
-        uptimeSecondPerYear = weeklyUptimeHours * 3600 * 52
-        console.log(`weeklyUptimeHours: ${weeklyUptimeHours}`)
-        console.log(`uptimeSecondPerYear: ${uptimeSecondPerYear}`)
-        console.log(`secondsPerYear: ${secondsPerYear}`)
-
-        let secondsDownPerYear = getSecondsDownPerYear(sla_percentage, uptimeSecondPerYear)
+    //     let secondsDownPerYear = getSecondsDownPerYear(sla_percentage, uptimeSecondPerYear)
     
-        secondsDownPerDay = secondsDownPerYear / 365.2425
-        secondsDownPerWeek = secondsDownPerYear / 52
-        secondsDownPerMonth = secondsDownPerYear / 12
-        secondsDownPerQuarter = secondsDownPerYear / 4
+    //     secondsDownPerDay = secondsDownPerYear / 365.2425
+    //     secondsDownPerWeek = secondsDownPerYear / 52
+    //     secondsDownPerMonth = secondsDownPerYear / 12
+    //     secondsDownPerQuarter = secondsDownPerYear / 4
     
-        document.getElementById('weeklyTime').innerHTML = formattedElapsedTime(secondsDownPerWeek);
-        document.getElementById('monthlyTime').innerHTML = formattedElapsedTime(secondsDownPerMonth);
-        document.getElementById('quarterlyTime').innerHTML = formattedElapsedTime(secondsDownPerQuarter);
-        document.getElementById('yearlyTime').innerHTML = formattedElapsedTime(secondsDownPerYear);
+    //     document.getElementById('weeklyTime').innerHTML = formattedElapsedTime(secondsDownPerWeek);
+    //     document.getElementById('monthlyTime').innerHTML = formattedElapsedTime(secondsDownPerMonth);
+    //     document.getElementById('quarterlyTime').innerHTML = formattedElapsedTime(secondsDownPerQuarter);
+    //     document.getElementById('yearlyTime').innerHTML = formattedElapsedTime(secondsDownPerYear);
         
-        var sla_percentage_locations = document.getElementsByClassName("sla_percentage");
-        for (var i = 0; i < sla_percentage_locations.length; i++) {
-            sla_percentage_locations[i].innerHTML = sla_percentage;
-        }
+    //     var sla_percentage_locations = document.getElementsByClassName("sla_percentage");
+    //     for (var i = 0; i < sla_percentage_locations.length; i++) {
+    //         sla_percentage_locations[i].innerHTML = sla_percentage;
+    //     }
     
-        var yourElement = document.getElementById('sla_link');
-        yourElement.setAttribute('href', `?sla=${sla_percentage}&wk=qwertyu`);
-    }
+    //     var yourElement = document.getElementById('sla_link');
+    //     yourElement.setAttribute('href', `?sla=${sla_percentage}&wk=qwertyu`);
+    // }
     
     const inputField = document.getElementById("input_sla_percentage");
     const button = document.getElementById("submitButton");
@@ -142,20 +141,5 @@ header: Uptime and downtime with <span class="sla_percentage"></span> % SLA
 
 
     // document.getElementById("current_host").textContent = window.location.href.replace(/(^\w+:|^)\/\//, '');
-    
-    if (sla != null) {
-        document.getElementById("input_sla_percentage").value = sla
-        button.click()
-    } else {
-        document.getElementById("input_sla_percentage").value = 99.99
-        button.click()
-    }
-    
-    inputField.addEventListener("keyup", function(event) {
-        // Check if "Enter" key was pressed
-        if (event.keyCode === 13) {
-          button.click();
-        }
-      });
     
     </script>
