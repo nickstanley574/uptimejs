@@ -73,71 +73,7 @@ header: Uptime and downtime with <span class="sla_percentage"></span> % SLA
     <li><a href="/uptimejs/flexible?sla=99.999&amp;wk=yyyyyyy">Founder's</a> 24/7</li>
 </ul>
 
-<script>
-
-    function getSecondsDownPerYear(uptimePercentage, secondsPerYear = 0) {
-      const uptime = uptimePercentage / 100;
-      if (secondsPerYear == 0) {
-        secondsPerYear = 365 * 24 * 60 * 60;
-      }
-      const secondsDownPerYear = secondsPerYear * (1 - uptime);
-      return secondsDownPerYear;
-    }
-    
-    function convertSecsToDays(seconds) {
-        let days = (seconds > 1) ? parseInt(seconds / 86400) : 0;
-        return days;
-    }
-    
-    function convertSecsToHours(seconds) {
-        let hours = parseInt(seconds / 3600);
-        return hours;
-    }
-    
-    function convertSecsToMinutes(seconds) {
-        let minutes = parseInt(seconds / 60);
-        return minutes;
-    }
-
-    function letterToNumber(l) {
-        // a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v  w  x  y  z
-        // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25  
-        return parseInt(l, 36) - 10
-    }
-    
-    function formattedElapsedTime(seconds){
-        elapsedStr = ''
-    
-        let numOfDays = convertSecsToDays(seconds);
-    
-        elapsedStr += (numOfDays > 0) ? `${numOfDays}d ` : '';
-    
-        seconds = seconds % 86400; // Remaining second after getting the days
-    
-        let numOfHours = convertSecsToHours(seconds);
-    
-        elapsedStr += (numOfHours > 0) ? `${numOfHours}h ` : '';
-    
-        seconds = seconds % 3600; // Remaining second after getting the hours
-        let numOfMinutes = convertSecsToMinutes(seconds);
-    
-        elapsedStr += (numOfMinutes > 0) ? `${numOfMinutes}m ` : '';
-    
-        let numOfSeconds = seconds % 60; // Remaining second after getting the minutes and also the result for the number of seconds
-    
-        if (numOfSeconds > 1) {
-            numOfSeconds = numOfSeconds.toFixed(1)
-        } else if (numOfSeconds < 0.01) {
-            numOfSeconds = numOfSeconds.toFixed(4)
-        } else {
-            numOfSeconds = numOfSeconds.toFixed(2) 
-        }
-    
-        elapsedStr += (numOfSeconds > 0) ? `${numOfSeconds}s ` : '';
-    
-        return elapsedStr
-    }
-    
+<script>        
     function generateDowntimeNumbers() {
         var sla_percentage = document.getElementById('input_sla_percentage').value;
     
