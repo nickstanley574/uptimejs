@@ -1,0 +1,61 @@
+---
+layout: base
+header: Uptime and downtime with <span class="sla_percentage"></span> % SLA
+permalink: /uptimejs/simple
+---
+
+<p style="font-size:x-large;clear:both;">
+    Agreed SLA level:
+    <input style="font-size:x-large" type="text" id="input_sla_percentage" value="" size="5" maxlength="10"> %
+    <button style="font-size:large" id="submitButton" onclick="generateDowntimeNumbers()">Calculate</button>
+    <span style="font-size: 75%;">(or hit the <kbd>&lt;enter&gt;</kbd> key)</span>
+</p>
+
+<p>
+    SLA level of <span class="sla_percentage"></span> % uptime/availability results in the following periods of allowed downtime/unavailability during the various reporting periods: 
+</p>
+
+<ul>
+    <li><b>Daily:</b> <span id="dailyTime"></span></li>
+    <li><b>Weekly:</b> <span id="weeklyTime"></span></li>
+    <li><b>Monthly:</b> <span id="monthlyTime"></span></li>
+    <li><b>Quarterly:</b> <span id="quarterlyTime"></span></li>
+    <li><b>Yearly:</b> <span id="yearlyTime"></span></li>
+</ul>
+
+<p>
+    Direct link to the page with these results: <a id="sla_link" href=""><span id="current_host"></span>?sla=<span class="sla_percentage"></a> 
+</p>
+
+<p>
+    For convenience, there are special CEO and SEO friendly links for N nines:
+    <a href="?sla=99.9">three nines</a>, <a href="?sla=99.99">four nines</a>, <a href="?sla=99.999">five nines</a>, <a href="?sla=99.9999">six nines</a>, and <a href="?sla=99.99999">seven nines</a>.
+</p>
+
+
+<script>
+
+const inputField = document.getElementById("input_sla_percentage");
+const button = document.getElementById("submitButton");
+
+const urlParams = new URLSearchParams(window.location.search);
+const sla = urlParams.get('sla')
+
+document.getElementById("current_host").textContent = window.location.href.replace(/(^\w+:|^)\/\//, '');
+
+if (sla != null) {
+    document.getElementById("input_sla_percentage").value = sla
+    button.click()
+} else {
+    document.getElementById("input_sla_percentage").value = 99.99
+    button.click()
+}
+
+inputField.addEventListener("keyup", function(event) {
+    // Check if "Enter" key was pressed
+    if (event.keyCode === 13) {
+      button.click();
+    }
+  });
+
+</script>
