@@ -10,37 +10,216 @@ header: Uptime and downtime with <span class="sla_percentage"></span> % SLA
     <span style="font-size: 75%;">(or hit the <kbd>&lt;enter&gt;</kbd> key)</span>
 </p>
 
-
-
-The measurements take place according to the following monitoring periods: 
-
-
-
 <p>
-    For convenience, there are some quick links for a number of common monitoring periods: 
+    SLA level of <span class="sla_percentage"></span> % uptime/availability results in the following periods of allowed downtime/unavailability during the various reporting periods: 
 </p>
 
+<ul>
+    <li><b>Weekly:</b> <span id="weeklyTime"></span></li>
+    <li><b>Monthly:</b> <span id="monthlyTime"></span></li>
+    <li><b>Quarterly:</b> <span id="quarterlyTime"></span></li>
+    <li><b>Yearly:</b> <span id="yearlyTime"></span></li>
+</ul>
 
+<p>
+    Direct link to the page with these results: <a id="sla_link" href=""><span id="current_host"></span>?sla=<span class="sla_percentage"></span>&amp;wk=<span id="wk"></span></a> 
+</p>
 
-<h2>Custom monitoring periods</h2>
+<h3>Custom monitoring periods</h3>
 
 <p>
     Specify a number of hours the availability shall be measured on specific weekdays. 0 means that there will be no measuring on a given day (e.g. on Saturdays and Sundays), while 24 states a requirement of 24 hours of uptime on a given day. 
 </p>
 
-<dl>
-    <dt><label for="uptime-monday"><strong>Monday:</strong></label></dt>
-    <dd><input style="font-size:x-large" id="uptime-monday" name="dur" value="24" size="2"> hours uptime per day</dd>
-    <dt><label for="uptime-tuesday"><strong>Tuesday:</strong></label></dt>
-    <dd><input style="font-size:x-large" id="uptime-tuesday" name="dur" value="24" size="2"> hours uptime per day</dd>
-    <dt><label for="uptime-wednesday"><strong>Wednesday:</strong></label></dt>
-    <dd><input style="font-size:x-large" id="uptime-wednesday" name="dur" value="24" size="2"> hours uptime per day</dd>
-    <dt><label for="uptime-thursday"><strong>Thursday:</strong></label></dt>
-    <dd><input style="font-size:x-large" id="uptime-thursday" name="dur" value="24" size="2"> hours uptime per day</dd>
-    <dt><label for="uptime-friday"><strong>Friday:</strong></label></dt>
-    <dd><input style="font-size:x-large" id="uptime-friday" name="dur" value="24" size="2"> hours uptime per day</dd>
-    <dt><label for="uptime-saturday"><strong>Saturday:</strong></label></dt>
-    <dd><input style="font-size:x-large" id="uptime-saturday" name="dur" value="24" size="2"> hours uptime per day</dd>
-    <dt><label for="uptime-sunday"><strong>Sunday:</strong></label></dt>
-    <dd><input style="font-size:x-large" id="uptime-sunday" name="dur" value="24" size="2"> hours uptime per day</dd>
-</dl>
+<table>
+    <tr>
+        <td><label for="uptime-monday"><strong>Monday:</strong></label></td>
+        <td><input class="uptime-daily" style="font-size:large" id="uptime-monday" name="dur" value="24" size="2"> hours uptime per day</td>
+    </tr>
+    <tr>
+        <td><label for="uptime-tuesday"><strong>Tuesday:</strong></label></td>
+        <td><input class="uptime-daily" style="font-size:large" id="uptime-tuesday" name="dur" value="24" size="2"> hours uptime per day</td>
+    </tr>
+    <tr>
+        <td><label for="uptime-wednesday"><strong>Wednesday:</strong></label></td>
+        <td><input class="uptime-daily" style="font-size:large" id="uptime-wednesday" name="dur" value="24" size="2"> hours uptime per day</td>
+    </tr>
+    <tr>
+        <td><label for="uptime-thursday"><strong>Thursday:</strong></label></td>
+        <td><input class="uptime-daily" style="font-size:large" id="uptime-thursday" name="dur" value="24" size="2"> hours uptime per day</td>
+    </tr>
+    <tr>
+        <td><label for="uptime-friday"><strong>Friday:</strong></label></td>
+        <td><input class="uptime-daily" style="font-size:large" id="uptime-friday" name="dur" value="24" size="2"> hours uptime per day</td>
+    </tr>
+    <tr>
+        <td><label for="uptime-saturday"><strong>Saturday:</strong></label></td>
+        <td><input class="uptime-daily" style="font-size:large" id="uptime-saturday" name="dur" value="24" size="2"> hours uptime per day</td>
+    </tr>
+    <tr>
+        <td><label for="uptime-sunday"><strong>Sunday:</strong></label></td>
+        <td><input class="uptime-daily" style="font-size:large" id="uptime-sunday" name="dur" value="24" size="2"> hours uptime per day</td>
+    </tr>
+  </table> 
+
+<p>
+    For convenience, there are some quick links for a number of common monitoring periods: 
+</p>
+<ul>
+    <li><a href="/flexible?sla=99.999&amp;wk=gggggaa">Relaxed</a> 6 hours/day Monday &ndash; Friday</li>
+    <li><a href="/flexible?sla=99.999&amp;wk=iiiiiaa">Business</a> 8 hours/day Monday &ndash; Friday</li>
+    <li><a href="/flexible?sla=99.999&amp;wk=oooooaa">Business Extended</a> 14 hours/day Monday &ndash; Friday</li>
+    <li><a href="/flexible?sla=99.999&amp;wk=yyyyyaa">Business Extreme</a> 24 hours/day Monday &ndash; Friday</li>
+    <li><a href="/flexible?sla=99.999&amp;wk=yyyyyyy">Founder's</a> 24/7</li>
+</ul>
+
+<script>
+
+    function getSecondsDownPerYear(uptimePercentage, secondsPerYear = 0) {
+      const uptime = uptimePercentage / 100;
+      if (secondsPerYear == 0) {
+        secondsPerYear = 365 * 24 * 60 * 60;
+      }
+      const secondsDownPerYear = secondsPerYear * (1 - uptime);
+      return secondsDownPerYear;
+    }
+    
+    function convertSecsToDays(seconds) {
+        let days = (seconds > 1) ? parseInt(seconds / 86400) : 0;
+        return days;
+    }
+    
+    function convertSecsToHours(seconds) {
+        let hours = parseInt(seconds / 3600);
+        return hours;
+    }
+    
+    function convertSecsToMinutes(seconds) {
+        let minutes = parseInt(seconds / 60);
+        return minutes;
+    }
+
+    function letterToNumber(l) {
+        // a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v  w  x  y  z
+        // 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25  
+        return parseInt(l, 36) - 10
+    }
+    
+    function formattedElapsedTime(seconds){
+        elapsedStr = ''
+    
+        let numOfDays = convertSecsToDays(seconds);
+    
+        elapsedStr += (numOfDays > 0) ? `${numOfDays}d ` : '';
+    
+        seconds = seconds % 86400; // Remaining second after getting the days
+    
+        let numOfHours = convertSecsToHours(seconds);
+    
+        elapsedStr += (numOfHours > 0) ? `${numOfHours}h ` : '';
+    
+        seconds = seconds % 3600; // Remaining second after getting the hours
+        let numOfMinutes = convertSecsToMinutes(seconds);
+    
+        elapsedStr += (numOfMinutes > 0) ? `${numOfMinutes}m ` : '';
+    
+        let numOfSeconds = seconds % 60; // Remaining second after getting the minutes and also the result for the number of seconds
+    
+        if (numOfSeconds > 1) {
+            numOfSeconds = numOfSeconds.toFixed(1)
+        } else if (numOfSeconds < 0.01) {
+            numOfSeconds = numOfSeconds.toFixed(4)
+        } else {
+            numOfSeconds = numOfSeconds.toFixed(2) 
+        }
+    
+        elapsedStr += (numOfSeconds > 0) ? `${numOfSeconds}s ` : '';
+    
+        return elapsedStr
+    }
+    
+    function generateDowntimeNumbers() {
+        var sla_percentage = document.getElementById('input_sla_percentage').value;
+    
+
+        weeklyUptimeHours = 0
+        var dailyUptimes = document.getElementsByClassName("uptime-daily");
+        for (var i = 0; i < dailyUptimes.length; i++) {
+            weeklyUptimeHours += parseInt(dailyUptimes[i].value)
+        }
+
+        secondsPerYear = 365 * 24 * 60 * 60;
+
+        uptimeSecondPerYear = weeklyUptimeHours * 3600 * 52
+        console.log(`weeklyUptimeHours: ${weeklyUptimeHours}`)
+        console.log(`uptimeSecondPerYear: ${uptimeSecondPerYear}`)
+        console.log(`secondsPerYear: ${secondsPerYear}`)
+
+        let secondsDownPerYear = getSecondsDownPerYear(sla_percentage, uptimeSecondPerYear)
+    
+        secondsDownPerDay = secondsDownPerYear / 365.2425
+        secondsDownPerWeek = secondsDownPerYear / 52
+        secondsDownPerMonth = secondsDownPerYear / 12
+        secondsDownPerQuarter = secondsDownPerYear / 4
+    
+        document.getElementById('weeklyTime').innerHTML = formattedElapsedTime(secondsDownPerWeek);
+        document.getElementById('monthlyTime').innerHTML = formattedElapsedTime(secondsDownPerMonth);
+        document.getElementById('quarterlyTime').innerHTML = formattedElapsedTime(secondsDownPerQuarter);
+        document.getElementById('yearlyTime').innerHTML = formattedElapsedTime(secondsDownPerYear);
+        
+        var sla_percentage_locations = document.getElementsByClassName("sla_percentage");
+        for (var i = 0; i < sla_percentage_locations.length; i++) {
+            sla_percentage_locations[i].innerHTML = sla_percentage;
+        }
+    
+        var yourElement = document.getElementById('sla_link');
+        yourElement.setAttribute('href', `?sla=${sla_percentage}&wk=qwertyu`);
+    }
+    
+    const inputField = document.getElementById("input_sla_percentage");
+    const button = document.getElementById("submitButton");
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const sla = urlParams.get('sla')
+    wk = urlParams.get('wk')
+
+    var wkElement = document.getElementById('wk');
+    wkElement.innerHTML = "qwertyu"
+
+    if (wk != null) {
+        mon = letterToNumber(wk[0])
+        tue = letterToNumber(wk[1])
+        wed = letterToNumber(wk[2])
+        thu = letterToNumber(wk[3])
+        fri = letterToNumber(wk[4])
+        sat = letterToNumber(wk[5])
+        sun = letterToNumber(wk[6])
+
+        document.getElementById("uptime-monday").value = mon
+        document.getElementById("uptime-tuesday").value = tue
+        document.getElementById("uptime-wednesday").value = wed
+        document.getElementById("uptime-thursday").value = thu
+        document.getElementById("uptime-friday").value = fri
+        document.getElementById("uptime-saturday").value = sat
+        document.getElementById("uptime-sunday").value = sun
+    }
+
+
+    // document.getElementById("current_host").textContent = window.location.href.replace(/(^\w+:|^)\/\//, '');
+    
+    if (sla != null) {
+        document.getElementById("input_sla_percentage").value = sla
+        button.click()
+    } else {
+        document.getElementById("input_sla_percentage").value = 99.99
+        button.click()
+    }
+    
+    inputField.addEventListener("keyup", function(event) {
+        // Check if "Enter" key was pressed
+        if (event.keyCode === 13) {
+          button.click();
+        }
+      });
+    
+    </script>
