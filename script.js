@@ -64,7 +64,9 @@ function formattedElapsedTime(seconds){
 
 
 function uptimePercentage(downtimeSeconds, totalSeconds) {
-    return ((totalSeconds - downtimeSeconds) / totalSeconds * 100).toFixed(3)
+    percentage = ((totalSeconds - downtimeSeconds) / totalSeconds * 100).toFixed(3)
+    percentage = (percentage == 100) ? 100: percentage;
+    return percentage
 }
 
 function generateReverseNumbers() {
