@@ -65,6 +65,11 @@ function formattedElapsedTime(seconds){
 
 function uptimePercentage(downtimeSeconds, totalSeconds) {
     percentage = ((totalSeconds - downtimeSeconds) / totalSeconds * 100).toFixed(3)
+    if  (percentage == 100) {
+        percentage = 100
+    } else if (percentage < 0) {
+        percentage = 0
+    }
     percentage = (percentage == 100) ? 100: percentage;
     return percentage
 }
