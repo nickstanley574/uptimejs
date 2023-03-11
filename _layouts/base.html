@@ -13,6 +13,19 @@
     ul li {
         padding: 1px 0px;
     }
+    p {
+        margin-top: 14px;
+        margin-bottom: 14px;
+    }
+
+    .active {
+        color: currentColor;
+        text-decoration: none; 
+        font-style: italic;
+    }
+
+    a { color:#336699; }
+    a :visited {color:#336699;}  
 
 </style>
 
@@ -24,18 +37,17 @@
 </head>
 
 <body>
-    <h1 style="color:blue">
+    <h1 style="color:#a93b65;">
         {{ page.header }}
     </h1>
     
     <div style="padding-bottom:16px">
     <span style="float:right;">[
-        <a href="{{site.basepath}}/simple">simple</a> /
-        <a href="{{site.basepath}}/flexible">flexible</a> /
-        <!-- <em>flexible</em> / -->
-        <a href="{{site.basepath}}/reverse">reverse</a> /
-        <a href="{{site.basepath}}/about">about</a> /
-        <a href="{{site.basepath}}/about#api">API</a>
+        <a {% if page.url contains 'simple' %}class='active'{% endif %} href="{{site.basepath}}/simple">simple</a> /
+        <a {% if page.url contains 'flexible' %}class='active'{% endif %} href="{{site.basepath}}/flexible">flexible</a> /
+        <a {% if page.url contains 'reverse' %}class='active'{% endif %} href="{{site.basepath}}/reverse">reverse</a> /
+        <a {% if page.url contains 'about' %}class='active'{% endif %} href="{{site.basepath}}/about">about</a> /
+        <a {% if page.url contains 'api' %}class='active'{% endif %} href="{{site.basepath}}/about#api">API</a>
     ]</span>
     </div>
 
