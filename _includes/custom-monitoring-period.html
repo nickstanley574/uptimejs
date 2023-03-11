@@ -1,0 +1,48 @@
+<h3>Custom monitoring periods</h3>
+
+<p>
+    Specify a number of hours the availability shall be measured on specific weekdays. 0 means that there will be no measuring on a given day (e.g. on Saturdays and Sundays), while 24 states a requirement of 24 hours of uptime on a given day. 
+</p>
+
+<table>
+    <tr>
+        <td><label for="uptime-monday"><strong>Monday:</strong></label></td>
+        <td><input class="uptime-daily" style="font-size:large" id="uptime-mon" name="dur" value="24" size="2"> hours uptime per day</td>
+    </tr>
+    <tr>
+        <td><label for="uptime-tuesday"><strong>Tuesday:</strong></label></td>
+        <td><input class="uptime-daily" style="font-size:large" id="uptime-tue" name="dur" value="24" size="2"> hours uptime per day</td>
+    </tr>
+    <tr>
+        <td><label for="uptime-wednesday"><strong>Wednesday:</strong></label></td>
+        <td><input class="uptime-daily" style="font-size:large" id="uptime-wed" name="dur" value="24" size="2"> hours uptime per day</td>
+    </tr>
+    <tr>
+        <td><label for="uptime-thursday"><strong>Thursday:</strong></label></td>
+        <td><input class="uptime-daily" style="font-size:large" id="uptime-thu" name="dur" value="24" size="2"> hours uptime per day</td>
+    </tr>
+    <tr>
+        <td><label for="uptime-friday"><strong>Friday:</strong></label></td>
+        <td><input class="uptime-daily" style="font-size:large" id="uptime-fri" name="dur" value="24" size="2"> hours uptime per day</td>
+    </tr>
+    <tr>
+        <td><label for="uptime-saturday"><strong>Saturday:</strong></label></td>
+        <td><input class="uptime-daily" style="font-size:large" id="uptime-sat" name="dur" value="24" size="2"> hours uptime per day</td>
+    </tr>
+    <tr>
+        <td><label for="uptime-sunday"><strong>Sunday:</strong></label></td>
+        <td><input class="uptime-daily" style="font-size:large" id="uptime-sun" name="dur" value="24" size="2"> hours uptime per day</td>
+    </tr>
+  </table> 
+
+<p>
+    For convenience, there are some quick links for a number of common monitoring periods: 
+</p>
+<ul>
+    <li><a href="?sla=99.999&wk=gggggaa">Relaxed</a> 6 hours/day Monday &ndash; Friday</li>
+    <li><a href="?sla=99.999&wk=iiiiiaa">Business</a> 8 hours/day Monday &ndash; Friday</li>
+    <li><a href="?sla=99.999&wk=oooooaa">Business Extended</a> 14 hours/day Monday &ndash; Friday</li>
+    <li><a href="?sla=99.999&wk=yyyyyaa">Business Extreme</a> 24 hours/day Monday &ndash; Friday</li>
+    <li><a href="?sla=99.999&wk=yyyyyyy">Founder's</a> 24/7</li>
+</ul>
+

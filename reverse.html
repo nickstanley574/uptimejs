@@ -1,0 +1,30 @@
+---
+layout: base
+header: SLA uptime in case of TODO h downtime
+---
+
+<p style="font-size:x-large;clear:both;">
+    Downtime duration:
+    <input style="font-size:x-large" type="text" id="input-downtime-duration" value="" size="10" maxlength="15">
+    <button style="font-size:large" id="submitButton" onclick="generateReverseNumbers()">Calculate</button>
+    <span style="font-size: 75%;"> (duration, e.g. 11h 12m 34s) </span>
+</p>
+
+<p>
+    Downtime with a duration of during a reporting period equals to the following SLA uptime percentages: 
+</p>
+
+<ul>
+    <li><b>Daily reporting:</b> <span id="dailyTime"></span></li>
+    <li><b>Weekly reporting:</b> <span id="weeklyTime"></span></li>
+    <li><b>Monthly reporting:</b> <span id="monthlyTime"></span></li>
+    <li><b>Quarterly reporting:</b> <span id="quarterlyTime"></span></li>
+    <li><b>Yearly reporting:</b> <span id="yearlyTime"></span></li>
+</ul>
+
+<p>
+    Direct link to the page with these results: <a id="sla_link" href=""><span id="current_host"></span>?sla=<span class="sla_percentage"></span>&amp;wk=<span id="wk"></span></a> 
+</p>
+
+
+{% include custom-monitoring-period.html %}
