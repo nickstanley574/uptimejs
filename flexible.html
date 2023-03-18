@@ -6,7 +6,7 @@ header: Uptime and downtime with <span class="sla_percentage"></span> % SLA
 <p style="font-size:x-large;clear:both;">
     Agreed SLA level:
     <input style="font-size:x-large" type="text" id="input_sla_percentage" value="" size="5" maxlength="10"> %
-    <button style="font-size:large" id="submitButton" onclick="generateDowntimeNumbers()">Calculate</button>
+    <button style="font-size:x-large" id="submitButton" onclick="generateDowntimeNumbers()">Calculate</button>
     <span style="font-size: 75%;">(or hit the <kbd>&lt;enter&gt;</kbd> key)</span>
 </p>
 
@@ -26,3 +26,15 @@ header: Uptime and downtime with <span class="sla_percentage"></span> % SLA
 </p>
 
 {% include custom-monitoring-period.html %}
+
+<p>
+    For convenience, there are some quick links for a number of common monitoring periods: 
+</p>
+
+<ul>
+    <li><a href="?sla=99.999&wk=gggggaa">Relaxed</a> 6 hours/day Monday &ndash; Friday</li>
+    <li><a href="?sla=99.999&wk=iiiiiaa">Business</a> 8 hours/day Monday &ndash; Friday</li>
+    <li><a href="?sla=99.999&wk=oooooaa">Business Extended</a> 14 hours/day Monday &ndash; Friday</li>
+    <li><a href="?sla=99.999&wk=yyyyyaa">Business Extreme</a> 24 hours/day Monday &ndash; Friday</li>
+    <li><a href="?sla=99.999&wk=yyyyyyy">Founder's</a> 24/7</li>
+</ul>

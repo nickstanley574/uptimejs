@@ -1,13 +1,13 @@
 ---
 layout: base
-header: SLA uptime in case of TODO h downtime
+header: SLA uptime in case of <span class="inputted-value"></span> downtime
 ---
 
 <p style="font-size:x-large;clear:both;">
-    Downtime duration:
+    <b>Downtime duration:</b>
     <input style="font-size:x-large" type="text" id="input-downtime-duration" value="" size="10" maxlength="15">
-    <button style="font-size:large" id="submitButton" onclick="generateReverseNumbers()">Calculate</button>
-    <span style="font-size: 75%;"> (duration, e.g. 11h 12m 34s) </span>
+    <button style="font-size:x-large" id="submitButton" onclick="generateReverseNumbers()">Calculate</button>
+    <span style="font-size: 75%;"> (e.g. <kbd>11h 12m 34s</kbd>) </span>
 </p>
 
 <p>
