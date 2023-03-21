@@ -8,6 +8,17 @@ function getSecondsDownPerYear(uptimePercentage, secondsPerYear = 0) {
     return secondsDownPerYear;
 }
 
+
+function splitSeconds(downSeconds) {
+    var hours = Math.floor(downSeconds / 3600);
+    hours = (hours != 0) ? `${hours}h`: ""
+    var minutes = Math.floor((downSeconds % 3600) / 60);
+    minutes = (minutes != 0) ? `${minutes}m`: ""
+    var seconds = downSeconds % 60;
+    seconds = (seconds != 0) ? `${seconds}s`: ""
+    return `${hours} ${minutes} ${seconds}`
+  }
+
 function letterToNumber(l) {
     return parseInt(l, 36) - 10
 }
@@ -119,8 +130,32 @@ function generateReverseNumbers() {
     var yearlyUptimePercentage = uptimePercentage(downtimeSeconds, uptimeSecondPerYear)
     document.getElementById('yearlyTime').innerHTML = `${yearlyUptimePercentage} %`;
 
-}    
+    
+    var dailyUptimes = document.getElementsByClassName("uptime-daily");
 
+    wkArgument = ""
+
+    if (dailyUptimes.length == 0) {
+        weeklyUptimeHours = 168
+    } else {
+        for (var i = 0; i < dailyUptimes.length; i++) {
+            hours = parseInt(dailyUptimes[i].value)
+            weeklyUptimeHours += hours
+            wkArgument += numberToLetter(hours)
+        }
+    }
+
+
+    linkParams = `?down=${downtimeSeconds}`
+    linkParams += (wkArgument.length != 0) ? `&wk=${wkArgument}` : ''
+
+    var shareLinkElement = document.getElementById('share-link');
+    shareLinkElement.setAttribute('href', linkParams);
+    host = window.location.href.split('?')[0].replace(/(^\w+:|^)\/\//, '');
+    shareLinkElement.innerText = `${host}${linkParams}`
+
+
+}    
 
 
 function generateDowntimeNumbers() {
@@ -175,33 +210,47 @@ function generateDowntimeNumbers() {
     slaLinkElement.innerText = `${host}${linkParams}`
 }
 
-const urlParams = new URLSearchParams(window.location.search);
+function main() {
+    const urlParams = new URLSearchParams(window.location.search);
 
-wk = urlParams.get('wk')
+    wk = urlParams.get('wk')
 
-if (wk != null) {
-
-    // document.getElementById('wk').innerHTML = "qwertyu"
-
-    document.getElementById("uptime-mon").value = letterToNumber(wk[0])
-    document.getElementById("uptime-tue").value = letterToNumber(wk[1])
-    document.getElementById("uptime-wed").value = letterToNumber(wk[2])
-    document.getElementById("uptime-thu").value = letterToNumber(wk[3])
-    document.getElementById("uptime-fri").value = letterToNumber(wk[4])
-    document.getElementById("uptime-sat").value = letterToNumber(wk[5])
-    document.getElementById("uptime-sun").value = letterToNumber(wk[6])
-}
-
-const sla = urlParams.get('sla')
-const button = document.getElementById("submitButton");
-
-if (sla != null) {
-    document.getElementById("input_sla_percentage").value = sla
-    button.click()
-} else {
-    input_sla_percentage = document.getElementById("input_sla_percentage")
-    if (input_sla_percentage) {
-        input_sla_percentage.value = 99.99
+    if (wk != null) {
+        document.getElementById("uptime-mon").value = letterToNumber(wk[0])
+        document.getElementById("uptime-tue").value = letterToNumber(wk[1])
+        document.getElementById("uptime-wed").value = letterToNumber(wk[2])
+        document.getElementById("uptime-thu").value = letterToNumber(wk[3])
+        document.getElementById("uptime-fri").value = letterToNumber(wk[4])
+        document.getElementById("uptime-sat").value = letterToNumber(wk[5])
+        document.getElementById("uptime-sun").value = letterToNumber(wk[6])
     }
-    button.click()
+
+    const sla = urlParams.get('sla')
+    const button = document.getElementById("submitButton");
+
+    if (sla != null) {
+        document.getElementById("input_sla_percentage").value = sla
+    } else {
+        input_sla_percentage = document.getElementById("input_sla_percentage")
+        if (input_sla_percentage) {
+            input_sla_percentage.value = 99.99
+        }
+    }
+
+    const downUrlParam = urlParams.get('down')
+
+    if (downUrlParam != null) {
+        document.getElementById("input-downtime-duration").value = splitSeconds(downUrlParam)
+    } else {
+        inputDowntimeDurationElement = document.getElementById("input-downtime-duration")
+        if (inputDowntimeDurationElement) {
+            inputDowntimeDurationElement.value = "12h"
+        }
+    }
+
+    if (button != null) {
+        button.click()
+    }
 }
+
+main()
