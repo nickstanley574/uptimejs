@@ -1,1 +1,4 @@
 basepath: /uptimejs
+
+j:
+  output: true
