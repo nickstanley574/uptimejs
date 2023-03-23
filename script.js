@@ -19,6 +19,7 @@ function splitSeconds(downSeconds) {
     return `${hours} ${minutes} ${seconds}`
   }
 
+
 function letterToNumber(l) {
     return parseInt(l, 36) - 10
 }
@@ -65,13 +66,10 @@ function formattedElapsedTime(seconds){
     elapsedStr += (numMinutes > 0) ? `${numMinutes}m ` : '';
 
     let numSeconds = seconds % 60; // Remaining second after getting the minutes and also the result for the number of seconds
-    if (numSeconds > 1) {
-        numSeconds = numSeconds.toFixed(1)
-    } else if (numSeconds < 0.01) {
-        numSeconds = numSeconds.toFixed(4)
-    } else {
-        numSeconds = numSeconds.toFixed(2) 
-    }
+    if (numSeconds > 1)         { numSeconds = numSeconds.toFixed(1) }
+    else if (numSeconds < 0.01) { numSeconds = numSeconds.toFixed(4) }
+    else                        { numSeconds = numSeconds.toFixed(2) }
+
     elapsedStr += (numSeconds > 0) ? `${numSeconds}s ` : '';
 
     return elapsedStr
@@ -90,9 +88,7 @@ function uptimePercentage(downtimeSeconds, totalSeconds) {
 function generateReverseNumbers() {
 
     var downtimeSeconds = 0
-
-    var downtimeValue = document.getElementById('input-downtime-duration').value;
-    downtimeValue = downtimeValue.replace(/\s+/g,' ').trim()
+    var downtimeValue = document.getElementById('input-downtime-duration').value.replace(/\s+/g,' ').trim();
     
     var elements = document.getElementsByClassName("inputted-value");
     for (var i = 0; i < elements.length; i++) {
@@ -106,23 +102,23 @@ function generateReverseNumbers() {
         downtimeSeconds += (value.includes('d')) ? parseInt(value) * 86400 : 0;
     });
 
-    wkArgument = ""
-
+    var wkArgument = ""
+    var weeklyUptimeHours = 0
 
     var dailyUptimes = document.getElementsByClassName("uptime-daily");
-    weeklyUptimeHours = 0
     for (var i = 0; i < dailyUptimes.length; i++) {
         hours = parseInt(dailyUptimes[i].value)
         weeklyUptimeHours += hours
         wkArgument += numberToLetter(hours)
     }
+
     uptimeSecondPerYear = weeklyUptimeHours * 3600 * 52
+
     secondsUpPerWeek = uptimeSecondPerYear / 52
     secondsUpPerMonth = uptimeSecondPerYear / 12
     secondsUpPerQuarter = uptimeSecondPerYear / 4
 
-    const totalDaySeconds = 86400 // Total number of seconds in a daily
-    var dailyUptimePercentage = uptimePercentage(downtimeSeconds, totalDaySeconds)
+    var dailyUptimePercentage = uptimePercentage(downtimeSeconds, 86400) // Total number of seconds in a daily
     document.getElementById('dailyTime').innerHTML = `${dailyUptimePercentage} %`
 
     var weeklyUptimePercentage = uptimePercentage(downtimeSeconds, secondsUpPerWeek)
@@ -139,20 +135,17 @@ function generateReverseNumbers() {
 
     linkParams = `?down=${downtimeSeconds}`
     linkParams += (wkArgument.length != 0) ? `&wk=${wkArgument}` : ''
-
-    host = window.location.href.split('?')[0].replace(/(^\w+:|^)\/\//, '');
     
     var shareLinkElement = document.getElementById('share-link');
     shareLinkElement.setAttribute('href', linkParams);
-    shareLinkElement.innerText = `${host}${linkParams}`
-
+    shareLinkElement.innerText = `${window.location.host}${linkParams}`
 }    
 
 
 function generateDowntimeNumbers() {
 
-    wkArgument = ""
-    weeklyUptimeHours = 0
+    var wkArgument = ""
+    var weeklyUptimeHours = 0
 
     var dailyUptimes = document.getElementsByClassName("uptime-daily");
     if (dailyUptimes.length == 0) {
@@ -167,8 +160,8 @@ function generateDowntimeNumbers() {
 
     uptimeSecondPerYear = weeklyUptimeHours * 3600 * 52
 
-    var sla_percentage = document.getElementById('input_sla_percentage').value;
-    let secondsDownPerYear = getSecondsDownPerYear(sla_percentage, uptimeSecondPerYear)
+    var slaPercentage = document.getElementById('input_sla_percentage').value;
+    let secondsDownPerYear = getSecondsDownPerYear(slaPercentage, uptimeSecondPerYear)
 
     secondsDownPerDay = secondsDownPerYear / 365.2425
     secondsDownPerWeek = secondsDownPerYear / 52
@@ -188,50 +181,48 @@ function generateDowntimeNumbers() {
     
     var slaPercentageElements = document.getElementsByClassName("sla_percentage");
     for (var i = 0; i < slaPercentageElements.length; i++) {
-        slaPercentageElements[i].innerHTML = sla_percentage;
+        slaPercentageElements[i].innerHTML = slaPercentage;
     }
 
-    linkParams = `?sla=${sla_percentage}`
+    linkParams = `?sla=${slaPercentage}`
     linkParams += (wkArgument.length != 0) ? `&wk=${wkArgument}` : ''
 
-    host = window.location.href.split('?')[0].replace(/(^\w+:|^)\/\//, '');
-
-    var slaLinkElement = document.getElementById('sla_link');
+    var slaLinkElement = document.getElementById('share-link');
     slaLinkElement.setAttribute('href', linkParams);
-    slaLinkElement.innerText = `${host}${linkParams}`
+    slaLinkElement.innerText = `${window.location.host}${linkParams}`
 }
+
 
 function main() {
     const urlParams = new URLSearchParams(window.location.search);
+
     const downUrlParam = urlParams.get('down')
+    const slaUrlParam = urlParams.get('sla')
+    const wkUrlParam = urlParams.get('wk')
 
-    wk = urlParams.get('wk')
-    const sla = urlParams.get('sla')
-
-    if (wk != null) {
-        document.getElementById("uptime-mon").value = letterToNumber(wk[0])
-        document.getElementById("uptime-tue").value = letterToNumber(wk[1])
-        document.getElementById("uptime-wed").value = letterToNumber(wk[2])
-        document.getElementById("uptime-thu").value = letterToNumber(wk[3])
-        document.getElementById("uptime-fri").value = letterToNumber(wk[4])
-        document.getElementById("uptime-sat").value = letterToNumber(wk[5])
-        document.getElementById("uptime-sun").value = letterToNumber(wk[6])
+    if (wkUrlParam) {
+        document.getElementById("uptime-mon").value = letterToNumber(wkUrlParam[0])
+        document.getElementById("uptime-tue").value = letterToNumber(wkUrlParam[1])
+        document.getElementById("uptime-wed").value = letterToNumber(wkUrlParam[2])
+        document.getElementById("uptime-thu").value = letterToNumber(wkUrlParam[3])
+        document.getElementById("uptime-fri").value = letterToNumber(wkUrlParam[4])
+        document.getElementById("uptime-sat").value = letterToNumber(wkUrlParam[5])
+        document.getElementById("uptime-sun").value = letterToNumber(wkUrlParam[6])
     }
 
-
-    if (sla != null) {
-        document.getElementById("input_sla_percentage").value = sla
+    if (slaUrlParam) {
+        document.getElementById("input_sla_percentage").value = slaUrlParam
     } else {
-        input_sla_percentage = document.getElementById("input_sla_percentage")
-        if (input_sla_percentage) {
-            input_sla_percentage.value = 99.99
+        var inputSlaPercentage = document.getElementById("input_sla_percentage")
+        if (inputSlaPercentage) {
+            inputSlaPercentage.value = 99.99
         }
     }
 
-    if (downUrlParam != null) {
+    if (downUrlParam) {
         document.getElementById("input-downtime-duration").value = splitSeconds(downUrlParam)
     } else {
-        inputDowntimeDurationElement = document.getElementById("input-downtime-duration")
+        var inputDowntimeDurationElement = document.getElementById("input-downtime-duration")
         if (inputDowntimeDurationElement) {
             inputDowntimeDurationElement.value = "12h"
         }
